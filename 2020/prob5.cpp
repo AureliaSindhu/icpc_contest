@@ -56,7 +56,9 @@ int main(int argc, char** argv) {
             } else if (s >= high){
                 curr = i + 1;
             } else {
-                curr = last;
+                // curr = last;
+                curr = (last > i ? i + 1 : i);
+
             }
         }
         cout << "sppedometer[" << i << "]: " << curr << endl;
