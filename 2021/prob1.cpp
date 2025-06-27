@@ -7,11 +7,14 @@
 
 // System Libraries
 #include <iostream>
+#include <cmath>
 using namespace std; 
 
 //User Libraries
 
 //Global Constants Math/Physics/Chemistry/Conversions ONLY!!!!!
+const float CONSTANT_TERM = 0.16f;
+const float DIVISOR = 0.067f;
 
 //Function Prototypes
 
@@ -21,20 +24,14 @@ int main(int argc, char** argv) {
     
     //Declare variables
     const int radius[] = {1433, 1433, 2000, 600};
-    const float sElv[] = {.09, .12, .09, .12};
-
-    int v, r;
-    float s, part1, part2; 
+    const float sElv[] = {.09f, .12f, .09f, .12f};
     
     //Initialize Inputs
     
     //Map Inputs to Outputs - Process
     for (int i = 0; i < 4; i++) {
-        r = radius[i];
-        s = sElv[i];
-        part1 = r * (s + .16);
-        part2 = part1 / 0.067;
-        v = sqrt(part2);
+        // Calculate velocity directly without intermediate variables
+        int v = sqrt((radius[i] * (sElv[i] + CONSTANT_TERM)) / DIVISOR);
         cout << "v" << i << " = " << v << endl;
     }
     
