@@ -6,9 +6,7 @@ Created on June 27, 2025
 Purpose: Problem 1 ICPC 2021*/
 
 // System Libraries
-#include <algorithm>
 #include <iostream>
-#include <set>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -93,26 +91,17 @@ int main(int argc, char **argv) {
 
   cout << endl;
 
-  // Find unmatched ICPC records
+  // Find unmatched records in a single pass
   vector<bool> icpcMatched(icpcEmails.size(), false);
+  vector<bool> outsideMatched(outsideEmails.size(), false);
+
   for (int i = 0; i < icpcEmails.size(); i++) {
     for (int j = 0; j < outsideEmails.size(); j++) {
       if (matches(icpcEmails[i], outsideEmails[j], icpcFirsts[i], icpcLasts[i],
                   outsideFirsts[j], outsideLasts[j])) {
         icpcMatched[i] = true;
-        break;
-      }
-    }
-  }
-
-  // Find unmatched outside records
-  vector<bool> outsideMatched(outsideEmails.size(), false);
-  for (int i = 0; i < outsideEmails.size(); i++) {
-    for (int j = 0; j < icpcEmails.size(); j++) {
-      if (matches(outsideEmails[i], icpcEmails[j], outsideFirsts[i],
-                  outsideLasts[i], icpcFirsts[j], icpcLasts[j])) {
-        outsideMatched[i] = true;
-        break;
+        outsideMatched[j] = true;
+        break; // Found a match for this ICPC record, move to next
       }
     }
   }
@@ -208,26 +197,17 @@ int main(int argc, char **argv) {
 
   cout << endl;
 
-  // Find unmatched ICPC records for second test case
+  // Find unmatched records for second test case in a single pass
   icpcMatched.assign(icpcEmails.size(), false);
+  outsideMatched.assign(outsideEmails.size(), false);
+
   for (int i = 0; i < icpcEmails.size(); i++) {
     for (int j = 0; j < outsideEmails.size(); j++) {
       if (matches(icpcEmails[i], outsideEmails[j], icpcFirsts[i], icpcLasts[i],
                   outsideFirsts[j], outsideLasts[j])) {
         icpcMatched[i] = true;
-        break;
-      }
-    }
-  }
-
-  // Find unmatched outside records for second test case
-  outsideMatched.assign(outsideEmails.size(), false);
-  for (int i = 0; i < outsideEmails.size(); i++) {
-    for (int j = 0; j < icpcEmails.size(); j++) {
-      if (matches(outsideEmails[i], icpcEmails[j], outsideFirsts[i],
-                  outsideLasts[i], icpcFirsts[j], icpcLasts[j])) {
-        outsideMatched[i] = true;
-        break;
+        outsideMatched[j] = true;
+        break; // Found a match for this ICPC record, move to next
       }
     }
   }
@@ -245,13 +225,13 @@ string toLower(string str) {
 
 bool matches(const string &email1, const string &email2, const string &first1,
              const string &last1, const string &first2, const string &last2) {
-    // Check email match (case-insensitive)
-    if (toLower(email1) == toLower(email2))
-        return true;
+  // Check email match (case-insensitive)
+  if (toLower(email1) == toLower(email2))
+    return true;
 
-    // Check name match (case-insensitive)
-    if (toLower(first1) == toLower(first2) && toLower(last1) == toLower(last2))
-        return true;
+  // Check name match (case-insensitive)
+  if (toLower(first1) == toLower(first2) && toLower(last1) == toLower(last2))
+    return true;
 
   return false;
 }
